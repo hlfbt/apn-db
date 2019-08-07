@@ -255,18 +255,26 @@ const MCCTABLE: &'static [(&'static str, usize, &'static str)] = &[
     ("750", 2, "fk"),       // Falkland Islands (Malvinas)
 ];
 
+pub struct IMSI<'a> {
+    pub mcc: &'a str,
+    pub mnc: &'a str,
+    pub msin: &'a str,
+    pub region: &'a str
+}
+
 pub struct IccHelper {
 
 }
 
 impl IccHelper {
-    pub fn parse_imsi(imsi: &str) -> (&str, &str, &str) {
+    pub fn parse_imsi(imsi: &str) -> IMSI {
         if (imsi.len() < 5) {
             panic!("Invalid IMSI");
         }
 
         let mcc: &str = &imsi[0..3];
         let mut mnc_len: usize = 2;
+        let mut region: &str = "";
 
         // Currently MCCMNC_CODES_HAVING_3DIGITS_MNC only includes 405 codes,
         // this if statement needs to be removed (or modified) when this changes!
@@ -283,6 +291,7 @@ impl IccHelper {
             for entry in MCCTABLE {
                 if (mcc == entry.0) {
                     mnc_len = entry.1;
+                    region = entry.2;
                     break;
                 }
             }
@@ -295,6 +304,6 @@ impl IccHelper {
         let mnc: &str = &imsi[3..(3 + mnc_len)];
         let msin: &str = &imsi[(3 + mnc_len)..];
 
-        return (mcc, mnc, msin);
+        return IMSI { mcc, mnc, msin, region };
     }
 }

@@ -9,6 +9,7 @@ mod apndb;
 mod simtoolkit;
 
 use crate::apndb::Apn;
+use crate::simtoolkit::IMSI;
 
 const APN_FILE_URL: &str = "https://android.googlesource.com/device/sample/+/master/etc/apns-full-conf.xml?format=TEXT";
 const DB_CACHE_FILE: &str = "~/.cache/apn-db.xml";
@@ -56,10 +57,10 @@ fn run() -> Result<(), ()> {
     let mcc: &str;
     let mnc: &str;
     if (matches.is_present("imsi")) {
-        let imsi = simtoolkit::IccHelper::parse_imsi(matches.value_of("imsi").unwrap());
-        println!("IMSI:       {} {} {}", imsi.0, imsi.1, imsi.2);
-        mcc = imsi.0;
-        mnc = imsi.1;
+        let imsi: IMSI = simtoolkit::IccHelper::parse_imsi(matches.value_of("imsi").unwrap());
+        println!("IMSI:       {} {} {} ({})", imsi.mcc, imsi.mnc, imsi.msin, imsi.region);
+        mcc = imsi.mcc;
+        mnc = imsi.mnc;
     } else {
         mcc = matches.value_of("mcc").unwrap();
         mnc = matches.value_of("mnc").unwrap();
