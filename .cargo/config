@@ -1,0 +1,14 @@
+
+[target]
+rustflags = [
+  "-C", "link-arg=-s"
+]
+
+[target.armv5te-unknown-linux-gnueabi]
+# The linker is obviously machine specific and needs to be adjusted to the actual location of the fitting toolchain
+linker = "/home/alex/x-tools/arm-unknown-linux-gnueabi/bin/arm-unknown-linux-gnueabi-gcc"
+rustflags = [
+  "-C", "link-arg=-s",
+  "-C", "link-arg=-mfloat-abi=soft",
+  "-C", "link-arg=-mcpu=arm926ej-s"
+]

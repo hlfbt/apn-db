@@ -1,0 +1,19 @@
+[package]
+name = "apn-db"
+version = "0.1.1"
+authors = ["Alexander Schulz <alex@nope.bz>"]
+edition = "2018"
+
+[profile.release]
+lto = true
+panic = 'abort'
+opt-level = 'z'
+
+[dependencies]
+#openssl = { version = "0.10.24", features = ["vendored"] }
+openssl = "0.10.24"
+reqwest = "0.9.18"
+base64 = "0.10.1"
+shellexpand = "1.0.0"
+quick-xml = "0.15.0"
+clap = "2.33.0"
