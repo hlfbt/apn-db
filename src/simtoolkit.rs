@@ -20,7 +20,8 @@ const MCCMNC_CODES_HAVING_3DIGITS_MNC: &'static [&'static str] = &[
     "502155", "502195", "502198", "714020", "750001", "999999"
 ];
 
-const MCCTABLE: &'static [(&'static str, usize, &'static str)] = &[
+const MCC_TABLE: &'static [(&'static str, usize, &'static str)] = &[
+    ("001", 2, "--"),       // Test Network
     ("202", 2, "gr"),       // Greece
     ("204", 2, "nl_nl"),    // Netherlands (Kingdom of the)
     ("206", 2, "be"),       // Belgium
@@ -255,6 +256,11 @@ const MCCTABLE: &'static [(&'static str, usize, &'static str)] = &[
     ("746", 2, "sr"),       // Suriname (Republic of)
     ("748", 2, "uy"),       // Uruguay (Eastern Republic of)
     ("750", 2, "fk"),       // Falkland Islands (Malvinas)
+    ("901", 2, "--"),       // International
+    ("902", 2, "--"),       // International
+    ("991", 2, "--"),       // International
+    ("995", 2, "io"),       // British Indian Ocean Territory (the)
+    ("999", 2, "--"),       // Internal use
 ];
 
 pub struct IMSI<'a> {
@@ -285,7 +291,7 @@ impl IccHelper {
             }
         }
 
-        for entry in MCCTABLE {
+        for entry in MCC_TABLE {
             if (mcc == entry.0) {
                 if (mnc_len != 3) {
                     mnc_len = entry.1;
