@@ -2,6 +2,7 @@
 name = "apn-db"
 version = "0.1.1"
 authors = ["Alexander Schulz <alex@nope.bz>"]
+license = "MIT"
 edition = "2018"
 
 [profile.release]
