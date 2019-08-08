@@ -20,25 +20,28 @@ impl ApnFile {
     }
 
     pub fn read(&self, force_update: bool) -> String {
-        if (force_update || !Path::new(&self.path).exists()) {
-            self.update().unwrap();
-        }
-
         let mut contents: String = String::new();
 
-        match File::open(&self.path) {
-            Ok(mut file) => file.read_to_string(&mut contents).expect(&format!("unable to read apn cache file {}", &self.path)[..]),
-            Err(_) => panic!("unable to open apn cache file '{}'", &self.path)
-        };
+        if (force_update || !Path::new(&self.path).exists()) {
+            contents = self.update().unwrap();
+        } else {
+            match File::open(&self.path) {
+                Ok(mut file) => file.read_to_string(&mut contents).expect(&format!("unable to read apn cache file {}", &self.path)[..]),
+                Err(_) => panic!("unable to open apn cache file '{}'", &self.path)
+            };
+        }
 
         return contents;
     }
 
-    pub fn update(&self) -> Result<(), String> {
+    pub fn update(&self) -> Result<String, String> {
         self.create_path().unwrap();
 
         return match self.fetch() {
-            Ok(xml) => Ok(self.write_file(&xml).unwrap()),
+            Ok(xml) => {
+                self.write_file(&xml).unwrap();
+                return Ok(xml);
+            },
             Err(s) => Err(String::from(s))
         };
     }
