@@ -8,6 +8,7 @@ edition = "2018"
 lto = true
 panic = 'abort'
 opt-level = 'z'
+codegen-units = 1
 
 [dependencies]
 #openssl = { version = "0.10.24", features = ["vendored"] }
