@@ -275,7 +275,7 @@ pub struct IccHelper {
 }
 
 impl IccHelper {
-    pub fn parse_imsi(imsi: &str) -> IMSI {
+    pub fn parse_imsi<'a>(imsi: &'a str) -> IMSI<'a> {
         if (imsi.len() < 5) {
             panic!("Invalid IMSI");
         }
